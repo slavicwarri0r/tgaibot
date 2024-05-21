@@ -44,10 +44,11 @@ internal static class Program
         return Task.CompletedTask;
     }
 
-    private static async Task UpdateAsync(ITelegramBotClient client, Telegram.Bot.Types.Update update, CancellationToken token)
+    private static Task UpdateAsync(ITelegramBotClient client, Telegram.Bot.Types.Update update, CancellationToken token)
     {
         DateTime localTime = DateTime.Now;
-        if (update.Message is not { } message) return;
+        if (update.Message is not { } message)
+            return Task.CompletedTask;
         if (message.Date.ToUniversalTime() >= localTime.AddMinutes(-1).ToUniversalTime() &&
         message.Date.ToUniversalTime() <= localTime.AddMinutes(1).ToUniversalTime())
         {
@@ -101,7 +102,8 @@ internal static class Program
                 }
             });
         }
-        return;
+
+        return Task.CompletedTask;
     }
 
     /*private static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
